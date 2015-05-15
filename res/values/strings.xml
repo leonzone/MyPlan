@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Plan</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="_">输入时间</string>
+    <string name="input_time">统计时间</string>
+    <string name="intup_plan">输入计划</string>
+
+</resources>
