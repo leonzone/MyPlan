@@ -3,14 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-<TextView
-        android:id="@+id/tvPlanName"
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/relativeLayout1"
-        android:text="计划开始" />
-    
+
     <RelativeLayout
         android:id="@+id/relativeLayout1"
         android:layout_width="fill_parent"
@@ -20,8 +13,8 @@
 
         <com.sunday.myplan.view.HoloCircularProgressBar
             android:id="@+id/holoCircularProgressBar"
-            android:layout_width="220dp"
-            android:layout_height="220dp"
+            android:layout_width="320dp"
+            android:layout_height="320dp"
             android:layout_centerInParent="true" />
 
         <RelativeLayout
@@ -32,21 +25,31 @@
 
             <View
                 android:id="@+id/start_view"
-                android:layout_width="160dp"
-                android:layout_height="160dp"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
                 android:layout_centerInParent="true"
                 android:gravity="center" />
+
+            <TextView
+                android:id="@+id/tvPlanName"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textSize="35sp"
+                android:textColor="@color/color_in"
+                android:gravity="center"
+                android:visibility="invisible"
+                android:singleLine="true"
+                android:text="计划开始" />
         </RelativeLayout>
     </RelativeLayout>
 
     <ImageView
         android:id="@+id/iv_plan"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_gravity="clip_vertical" />
-
-    
 
 </RelativeLayout>

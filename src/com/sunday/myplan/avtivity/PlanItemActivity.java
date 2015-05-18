@@ -18,7 +18,7 @@ public class PlanItemActivity extends BaseActivty{
 	EditText mItemName,mItemTime,mItemPic;
 	Button mBtnSaveItem;
 	Plan mPlan;
-	int [] picNumber=new int[]{R.drawable.rest,R.drawable.e1,R.drawable.e2,R.drawable.e3,R.drawable.e4,R.drawable.e5,R.drawable.e6,R.drawable.e7,R.drawable.e8,R.drawable.e9,R.drawable.e10,R.drawable.e11,R.drawable.e12,};
+int [] picNumber=new int[]{R.drawable.rest,R.drawable.e1,R.drawable.e2,R.drawable.e3,R.drawable.e4,R.drawable.e5,R.drawable.e6,R.drawable.e7,R.drawable.e8,R.drawable.e9,R.drawable.e10,R.drawable.e11,R.drawable.e12,};
 	@Override
 	protected void onCreate(Bundle arg0) {
 		// TODO Auto-generated method stub

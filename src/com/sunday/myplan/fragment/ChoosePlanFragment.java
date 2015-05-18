@@ -62,7 +62,7 @@ public class ChoosePlanFragment extends BaseFragment {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				PlanName planname=mPlanNameList.get(position);
-                addSharedPreferences(mPlanNameList.get(position).getId());
+                addSharedPreferences(mPlanNameList.get(position).getId(),mPlanNameList.get(position).getPlanname());
 				((MainActivity) getActivity()).choosePlanResult();
 				Toast.makeText(getActivity(), planname.getPlanname(), Toast.LENGTH_SHORT).show();
 
@@ -77,10 +77,11 @@ public class ChoosePlanFragment extends BaseFragment {
 		});
 	}
 	@SuppressLint("CommitPrefEdits")
-	protected void addSharedPreferences(int planId) {
+	protected void addSharedPreferences(int planId,String planName) {
 		SharedPreferences.Editor editor =getActivity().getSharedPreferences("plan",getActivity().MODE_PRIVATE
 				).edit();
 		editor.putInt("planId", planId);
+		editor.putString("planName", planName);
 		editor.commit();
 
 	}

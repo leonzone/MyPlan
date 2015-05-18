@@ -16,11 +16,6 @@ public class Plan extends DataSupport implements Serializable{
 	private int flag;
 	private PlanName plan;
 
-	public Plan(String planame,int time){
-		this.planame=planame;
-		this.time=time;
-		
-	}
 	public Plan(String planame, int time, String src) {
 		super();
 		this.planame = planame;

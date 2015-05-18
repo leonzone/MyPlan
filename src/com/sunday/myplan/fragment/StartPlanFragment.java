@@ -47,8 +47,9 @@ public class StartPlanFragment extends BaseFragment {
 		initData();
 	}
 	public void initData() {
-		int planId=getSharedPreferences();
-		tvStart.setText("你选择了计划"+planId);
+		String plan=getSharedPreferences();
+		int planId=getSharedPreferencesId();
+		tvStart.setText(plan);
 		mPlanId=planId;
 		if(planId>-1)
 		{
@@ -60,12 +61,22 @@ public class StartPlanFragment extends BaseFragment {
 		tvStart=(TextView) getView().findViewById(R.id.tv_to_start_plan);
 
 	}
-	private int getSharedPreferences() {
+	private String getSharedPreferences() {
+		String plan="请选择计划";
+		SharedPreferences pref =getActivity().getSharedPreferences("plan",getActivity().MODE_PRIVATE);
+		if(pref!=null)
+		{
+			plan=pref.getString("planName", "请选择计划");
+		}
+		return plan;
+
+	}
+	private int getSharedPreferencesId() {
 		int id=-1;
 		SharedPreferences pref =getActivity().getSharedPreferences("plan",getActivity().MODE_PRIVATE);
 		if(pref!=null)
 		{
-			id=pref.getInt("planId", -1);
+			id=pref.getInt("planId",-1);
 		}
 		return id;
 

@@ -188,10 +188,10 @@ public class TickPlusDrawable extends Drawable {
                  ObjectAnimator.ofFloat(this, mPropertyPointDY, mBounds.centerY()),
                  
                  ObjectAnimator.ofFloat(this, mPropertyPointEX, mBounds.right),
-                 ObjectAnimator.ofFloat(this, mPropertyPointEY, mBounds.centerY()),
+                 ObjectAnimator.ofFloat(this, mPropertyPointEY, mBounds.bottom),
                  
                  ObjectAnimator.ofFloat(this, mPropertyPointFX, mBounds.right),
-                 ObjectAnimator.ofFloat(this, mPropertyPointFY, mBounds.bottom),
+                 ObjectAnimator.ofFloat(this, mPropertyPointFY, mBounds.centerY()),
 
                 ObjectAnimator.ofFloat(this, mRotationProperty, 0f, 1f),
                 ObjectAnimator.ofObject(this, mLineColorProperty, mArgbEvaluator, mTickColor),

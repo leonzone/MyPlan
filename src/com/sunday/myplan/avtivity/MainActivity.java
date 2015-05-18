@@ -2,7 +2,11 @@ package com.sunday.myplan.avtivity;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
+import org.litepal.crud.DataSupport;
 import org.litepal.tablemanager.Connector;
 
 import android.app.Activity;
@@ -21,8 +25,11 @@ import android.util.TypedValue;
 import android.view.Menu;
 import android.view.ViewConfiguration;
 import android.view.Window;
+import android.widget.Toast;
 
 import com.sunday.myplan.R;
+import com.sunday.myplan.bean.Plan;
+import com.sunday.myplan.bean.PlanName;
 import com.sunday.myplan.fragment.ChoosePlanFragment;
 import com.sunday.myplan.fragment.StartPlanFragment;
 import com.sunday.myplan.view.PagerSlidingTabStrip;
@@ -47,6 +54,12 @@ public class MainActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		checkFristOpen();
+		iniView();
+		initData();
+	}
+
+	private void iniView() {
 		setOverflowShowingAlways();
 		//checkFristOpen();
 		dm = getResources().getDisplayMetrics();
@@ -54,8 +67,6 @@ public class MainActivity extends FragmentActivity {
 		tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
 		pager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
 		tabs.setViewPager(pager);
-		setTabsValue();
-		initData();
 	}
 
 	private void checkFristOpen() {
@@ -65,14 +76,15 @@ public class MainActivity extends FragmentActivity {
 			SharedPreferences.Editor editor = sp.edit();
 			editor.putBoolean("isFirstIn", false);
 			editor.commit();
-			
-			new AlertDialog.Builder(this).setMessage("这是第一次打开").show();
+			 initMyDate();
 		} else {
-			new AlertDialog.Builder(this).setMessage("你打开了n次了").show();
+			
 		}
 	}
 
+	
 	private void initData() {
+		setTabsValue();
 		SQLiteDatabase db = Connector.getDatabase();  		
 	}
 
@@ -179,6 +191,78 @@ public class MainActivity extends FragmentActivity {
 		        fragement.initData();
 
 
+	}
+	private void initMyDate() {
+		
+		int time=0;
+		int time2=0;
+		
+
+		String planname="7分钟锻炼";
+		String src=Integer.toString(R.drawable.ic_launcher);
+		Date date =getTime();
+		List<Plan> planList=new ArrayList<Plan>();
+		planList=addlist();
+		for(int i=0;i<planList.size();i++)
+		{
+			time+=planList.get(i).getTime();
+		}
+		DataSupport.saveAll(planList);
+		PlanName name=new PlanName( time, planname, src, date,planList);
+		name.save();
+		
+		String planname2="番茄时间";
+		String src2=Integer.toString(R.drawable.tomato);
+		Date date2 =getTime();
+		List<Plan> planList2=new ArrayList<Plan>();
+		planList2=addlist2();
+		for(int i=0;i<planList2.size();i++)
+		{
+			time2+=planList2.get(i).getTime();
+		}
+		
+		DataSupport.saveAll(planList2);
+		PlanName name2=new PlanName( time2, planname2, src2, date2,planList2);
+		name2.save();
+	}
+	private List<Plan> addlist2() {
+		 List<Plan>mPlanList = new ArrayList<Plan>();
+		 mPlanList.add(new Plan("开始", 1500, Integer.toString(R.drawable.tomato)));
+		 mPlanList.add(new Plan("休息", 300, Integer.toString(R.drawable.rest)));
+		return mPlanList;
+	}
+
+	private List<Plan> addlist() {
+		 List<Plan>mPlanList = new ArrayList<Plan>();
+		 mPlanList.add(new Plan("起跳", 30, Integer.toString(R.drawable.e1)));
+		 mPlanList.add(new Plan("休息", 10, Integer.toString(R.drawable.rest)));
+		 mPlanList.add(new Plan("蹲墙", 30, Integer.toString(R.drawable.e2)));
+		 mPlanList.add(new Plan("休息", 10, Integer.toString(R.drawable.rest)));
+		 mPlanList.add(new Plan("俯卧撑", 30, Integer.toString(R.drawable.e3)));
+		 mPlanList.add(new Plan("休息", 10, Integer.toString(R.drawable.rest)));
+		 mPlanList.add(new Plan("仰卧起坐", 30, Integer.toString(R.drawable.e4)));
+		 mPlanList.add(new Plan("休息", 10, Integer.toString(R.drawable.rest)));
+		 mPlanList.add(new Plan("起立", 30, Integer.toString(R.drawable.e5)));
+		 mPlanList.add(new Plan("休息", 10, Integer.toString(R.drawable.rest)));
+		 mPlanList.add(new Plan("下蹲", 30, Integer.toString(R.drawable.e6)));
+		 mPlanList.add(new Plan("休息", 10, Integer.toString(R.drawable.rest)));
+		 mPlanList.add(new Plan("反飞", 30, Integer.toString(R.drawable.e7)));
+		 mPlanList.add(new Plan("休息", 10, Integer.toString(R.drawable.rest)));
+		 mPlanList.add(new Plan("平板", 30, Integer.toString(R.drawable.e8)));
+		 mPlanList.add(new Plan("休息", 10, Integer.toString(R.drawable.rest)));
+		 mPlanList.add(new Plan("飞膝", 30, Integer.toString(R.drawable.e9)));
+		 mPlanList.add(new Plan("休息", 10, Integer.toString(R.drawable.rest)));
+		 mPlanList.add(new Plan("王子", 30, Integer.toString(R.drawable.e10)));
+		 mPlanList.add(new Plan("休息", 10, Integer.toString(R.drawable.rest)));
+		 mPlanList.add(new Plan("俯卧侧飞", 30, Integer.toString(R.drawable.e11)));
+		 mPlanList.add(new Plan("休息", 10, Integer.toString(R.drawable.rest)));
+		 mPlanList.add(new Plan("侧飞", 30, Integer.toString(R.drawable.e12)));
+		return mPlanList;
+	}
+
+	private Date getTime() {
+		Date  curDat =new Date(System.currentTimeMillis());//获取当前时间       
+		return curDat;
 	}
 
 

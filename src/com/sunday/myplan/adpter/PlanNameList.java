@@ -39,7 +39,7 @@ public class PlanNameList extends ArrayAdapter<PlanName> {
 			view= convertView;
 			viewholder=(ViewHolder) view.getTag();
 		}
-		viewholder.imageview.setImageResource(R.drawable.exo);
+		viewholder.imageview.setImageResource(Integer.parseInt(planname.getSrc()));
 		viewholder. textview.setText(planname.getPlanname());
 		viewholder.textview2.setText(planname.getTime()+"s");
 

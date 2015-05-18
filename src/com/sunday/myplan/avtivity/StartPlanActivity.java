@@ -36,7 +36,8 @@ public class StartPlanActivity extends BaseActivty {
 	private ObjectAnimator mProgressBarAnimator;
 	private TextView mTVName;
 	private int i=0,times=0,Retime;
-	private int FLAG=0;
+	private int FLAG=0;//0没有开始；1正在运行；2暂停
+	private int mFinshFLAG=0,mPlanHas=0;
 	private ImageView mIVPlan;
 	private CountDownTimer timer;
 	private TickPlusDrawable mTickPlusDrawable;
@@ -56,11 +57,20 @@ public class StartPlanActivity extends BaseActivty {
 	protected void restarttTick() {
 		mTVName.setText("暂停");
 		startTick(i,Retime);
+		FLAG=1;
+		mTVName.setVisibility(View.VISIBLE);
 		//		mProgressBarAnimator.resume();
 	}
 	protected void pausetTick() {
 		mTVName.setText("继续");
+		if(mFinshFLAG!=1)
+		{
 		timer.cancel();
+		mProgressBarAnimator.pause();//TODO
+		
+		}
+		FLAG=2;
+		mTVName.setVisibility(View.INVISIBLE);
 		//mProgressBarAnimator.cancel();;
 
 	}
@@ -71,6 +81,7 @@ public class StartPlanActivity extends BaseActivty {
 		{
 			mPlanList=selectFromDAO(id);		
 		}
+		mPlanList.add(new Plan("mjump",3,Integer.toString(R.drawable.e1)));
 	}
 	private void initView() {
 		mHoloCircularProgressBar=(HoloCircularProgressBar)findViewById(R.id.holoCircularProgressBar);
@@ -83,6 +94,8 @@ public class StartPlanActivity extends BaseActivty {
 		mHoloCircularProgressBar.setProgressColor(randomColor);
 		randomColor =  getResources().getColor(R.color.color_in);
 		mHoloCircularProgressBar.setProgressBackgroundColor(randomColor);
+		
+		
 
 
 	}
@@ -111,16 +124,26 @@ public class StartPlanActivity extends BaseActivty {
 			public void changeState(boolean b) {
 				if(FLAG==0)
 				{
+					if(mFinshFLAG!=1)
+					{
 					startTick(0,0);
 					FLAG=1;
+					mPlanHas=1;
+					mTVName.setVisibility(View.VISIBLE);
+					}
+					else {
+						mFinshFLAG=0;
+						mTVName.setVisibility(View.INVISIBLE);
+						
+					}
 				}else if(FLAG==1)
 				{
 					pausetTick();
-					FLAG=2;
+					
 				}else if(FLAG==2)
 				{
 					restarttTick();
-					FLAG=1;
+					
 				}
 
 			}
@@ -136,23 +159,25 @@ public class StartPlanActivity extends BaseActivty {
 
 
 	protected void startTick(int location,int reStartTime) {
+		
 		mTVName.setText("暂停任务");
 		List<Plan> list=mPlanList;
 		i=location;//现在已到位置
-
+        int aTime=list.get(i).getTime()*1000;
 		if(location<list.size())
 		{
 			if(reStartTime==0)
 			{
-				times=list.get(i).getTime()*1000;
+				times=aTime;
 			}
 			else {
 				times=reStartTime;
+				mProgressBarAnimator.resume();
+				
 			}
+			
 			animate(mHoloCircularProgressBar, null, 1, times);
 			mHoloCircularProgressBar.setMarkerProgress(1);
-			mHoloCircularProgressBar.setProgress(0.5f);
-			mTVName.setText(list.get(i).getPlaname());
 			int src=Integer.parseInt(list.get(i).getSrc());
 			mIVPlan.setImageResource(src);
 			timer=new CountDownTimer(times, 1000) {
@@ -179,10 +204,12 @@ public class StartPlanActivity extends BaseActivty {
 		}
 		else
 		{
-			Toast.makeText(StartPlanActivity.this, "plan is finish", Toast.LENGTH_SHORT).show();
-			mTVName.setText("重新开始");
-			mTVName.setText("0s");
 			FLAG=0;
+			Toast.makeText(StartPlanActivity.this, "plan is finish", Toast.LENGTH_SHORT).show();
+			mTVName.setText(R.string.one_more_time);
+			mFinshFLAG=1;
+			
+					
 		}
 	}
 	protected void playSoundToWalm() {
@@ -235,7 +262,6 @@ public class StartPlanActivity extends BaseActivty {
 		List<Plan> list = DataSupport .where("planname_id = ?", f+"").find(Plan.class); 
 		if(list.size()==0)
 		{
-			list.add(new Plan("mjump",30));
 		}
 		return list;
 
@@ -251,9 +277,13 @@ public class StartPlanActivity extends BaseActivty {
 	}
 	private void cancelTask() {
 		Log.d("my", "task is cancel");
+		if(mPlanHas==1)
+		{
 		timer.cancel();
 		mProgressBarAnimator.cancel();
-
+		}
+		
+		
 	}
 	
 }
